@@ -23,8 +23,7 @@ To run:
 Commands to run through code. The first four take a long time, so I usually do
 those separately and copy and paste the rest all at once.
 
-`
-./ZCControlPlotter Zuu muon
+```./ZCControlPlotter Zuu muon
 
 ./ZCControlPlotter Zee elec
 
@@ -44,7 +43,7 @@ those separately and copy and paste the rest all at once.
 ./ZCControlPlotter Zuu tthad
 ./ZCControlPlotter Zuu ttlep
 ./ZCControlPlotter Zuu ttsemi
-`
+```
 
 
 To combine the plots, run the main_comboPlots.C macro using root:

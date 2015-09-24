@@ -23,7 +23,8 @@ To run:
 Commands to run through code. The first four take a long time, so I usually do
 those separately and copy and paste the rest all at once.
 
-```./ZCControlPlotter Zuu muon
+```
+./ZCControlPlotter Zuu muon
 
 ./ZCControlPlotter Zee elec
 

@@ -32,6 +32,15 @@ void ZCControlPlotMaker::SlaveBegin(TTree * /*tree*/)
   // When running with PROOF SlaveBegin() is called on each slave server.
   // The tree argument is deprecated (on PROOF 0 is passed).
 
+  // Check the option to see if we're working with Simulation or Data, and whether you're looking for Zee or Zuu events
+    TString option = GetOption();
+    usingZee = usingZuu = usingZtt = false;
+    usingSim = (option.Contains("Sim", TString::kIgnoreCase) ? true : false);
+    usingZee = (option.Contains("Zee", TString::kIgnoreCase) ? true : false);
+    usingZuu = (option.Contains("Zuu", TString::kIgnoreCase) ? true : false);
+    if(option.Contains("Zttuu", TString::kIgnoreCase) usingZuu = usingZtt = true;
+    if(option.Contains("Zttuu", TString::kIgnoreCase) usingZuu = usingZtt = true;
+
     // Initialize Histograms
     h_raw_Zmass          = new TH1F( "h_raw_Zmass"         , "Z Mass"                     " (Raw)" "; Mass (GeV)"          ";Number of Events" , 100, 50, 250    );
     h_raw_Zpt            = new TH1F( "h_raw_Zpt"           , "Z p_{T}"                    " (Raw)" "; p_{T} (GeV)"         ";Number of Events" , 100,  0, 250    );
@@ -278,12 +287,6 @@ void ZCControlPlotMaker::SlaveBegin(TTree * /*tree*/)
         }
     }
 
-  // Check the option to see if we're working with Simulation or Data, and whether you're looking for Zee or Zuu events
-    TString option = GetOption();
-    usingSim = (option.Contains("Sim", TString::kIgnoreCase) ? true : false);
-    usingZee = (option.Contains("Zee", TString::kIgnoreCase) ? true : false);
-    usingZuu = (option.Contains("Zuu", TString::kIgnoreCase) ? true : false);
-
   // Initialize log, counters
     log.str("");
     nEntries         = 0;   nZJEEvents = vector<counter>(nJetsAnalyzed+1, 0);
@@ -316,6 +319,8 @@ void ZCControlPlotMaker::Init(TTree *tree)
 
   // Z variables
     fChain->SetBranchAddress("Vtype", &m_Vtype);
+    if(usingTT)
+        fChain->SetBranchAddress("zdecayMode",          &m_Z_decayMode );
     temp_branch = fChain->GetBranch("V");
     temp_branch->GetLeaf( "mass" )->SetAddress(     &m_Z_mass      );
     temp_branch->GetLeaf( "pt"   )->SetAddress(     &m_Z_pt        );
@@ -346,8 +351,10 @@ void ZCControlPlotMaker::Init(TTree *tree)
     fChain->SetBranchAddress( "allJet_vtxMass"    ,  m_jet_msv     );
   // MET variables
     temp_branch = fChain->GetBranch("MET");
-    temp_branch->GetLeaf( "et"  )->SetAddress(       &m_MET_et      );
-    temp_branch->GetLeaf( "phi" )->SetAddress(       &m_MET_phi     );
+    temp_branch->GetLeaf( "et"    )->SetAddress(    &m_MET_et      );
+    temp_branch->GetLeaf( "phi"   )->SetAddress(    &m_MET_phi     );
+    temp_branch->GetLeaf( "sig"   )->SetAddress(    &m_MET_sig     );
+    temp_branch->GetLeaf( "sumet" )->SetAddress(    &m_MET_sumet   );
   // Trigger variables
     fChain->SetBranchAddress("triggerFlags", m_triggers);
 
@@ -385,8 +392,9 @@ Bool_t ZCControlPlotMaker::Process(Long64_t entry)
   // Look at type of dileptons that make up Z. If they aren't the type we specified in the options, move on to the next event.
     if(m_Vtype==0) nRawMuonEvents++;
     if(m_Vtype==1) nRawElecEvents++;
-    if(!usingZee && m_Vtype==1) return kTRUE;
-    if(!usingZuu && m_Vtype==0) return kTRUE;
+    if(!usingZee && m_Vtype==1)      return kTRUE;
+    if(!usingZuu && m_Vtype==0)      return kTRUE;
+    if(usingZtt && m_Z_decayMode!=3) return kTRUE
 
   // Perform selection on Muons, Z, Eta
     validMuons = m_nMuons >=2 && m_muon_pt[0]>muonPtMin && fabs(m_muon_eta[0])<=muonEtaMax

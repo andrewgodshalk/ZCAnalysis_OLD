@@ -66,6 +66,7 @@ public:
     bool        usingSim  ; // Simulation events. For plotting sim-truth information.
     bool        usingZee  ; // Simulation events. For plotting sim-truth information.
     bool        usingZuu  ; // Simulation events. For plotting sim-truth information.
+    bool        usingZtt  ; // Simulation events. For plotting sim-truth information.
     bool        validJSON ; // Event has a certain trigger and comes from an event in a good run.
     bool        validMuons; // Muon isolation, eta, pt cuts met
     bool        validElecs; // Electron isolation, eta, pt cuts met
@@ -138,7 +139,7 @@ public:
 
     // Jet properties - Inclusive events have plot for all jets, as well as 1st through max jets (nJetsAnalyzed+1)
     //                - Exclusive events have plot for all jets and 1st through nth jet (n+1 plots)
-    TH1F *h_raw_nJets ;         std::vector<TH1F*>   h_zpj_inc_nJets         , h_zpj_exc_nJets         , h_tag_inc_nJets         , h_tag_exc_nJets         ;
+    TH1F *h_raw_nJets ;  std::vector<TH1F*>               h_zpj_inc_nJets         , h_zpj_exc_nJets         , h_tag_inc_nJets         , h_tag_exc_nJets         ;
     TH1F *h_raw_JetPt ;  std::vector<std::vector<TH1F*> > h_zpj_inc_JetPt         , h_zpj_exc_JetPt         , h_tag_inc_JetPt         , h_tag_exc_JetPt         ;
     TH1F *h_raw_JetEta;  std::vector<std::vector<TH1F*> > h_zpj_inc_JetEta        , h_zpj_exc_JetEta        , h_tag_inc_JetEta        , h_tag_exc_JetEta        ;
     TH1F *h_raw_JetPhi;  std::vector<std::vector<TH1F*> > h_zpj_inc_JetPhi        , h_zpj_exc_JetPhi        , h_tag_inc_JetPhi        , h_tag_exc_JetPhi        ;
@@ -152,6 +153,9 @@ public:
     float m_Z_phi ;   float m_jet_phi[maxNumJets];   float m_muon_phi   [maxNumMuons];   float m_elec_phi   [maxNumElecs];   int   m_json        ;
     int   m_Vtype ;   float m_jet_csv[maxNumJets];   float m_muon_charge[maxNumMuons];   float m_elec_charge[maxNumElecs];
                       float m_jet_msv[maxNumJets];   float m_muon_iso   [maxNumMuons];
+    float m_MET_sumet  ;
+    float m_MET_sig    ;
+    int   m_Z_decayMode;
 
     //ClassDef(ZCControlPlotMaker,0);
 };

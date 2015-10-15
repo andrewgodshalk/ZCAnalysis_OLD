@@ -21,27 +21,39 @@ namespace ZCStandardVariables
     const TString inputLocation = "/home/godshalk/Work/2015-01_step2ntuples/";
     const TString dataLocation =  "/home/godshalk/Work/2015-04-23_step2ntuple_reproc/";
 //    const TString fn_data           = inputLocation + "zcStep2_SingleMuon2012.root";         // Old muon data location.
-    const TString fn_muon           = dataLocation + "muon.root";
-    const TString fn_elec           = dataLocation + "elec.root";
-    const TString fn_dy             = inputLocation + "dy.root"      ;
-    const TString fn_dy1j           = inputLocation + "dy1j.root"  ;
-    const TString fn_ww             = inputLocation + "ww.root"            ;
-    const TString fn_wz             = inputLocation + "wz.root"            ;
-    const TString fn_zz             = inputLocation + "zz.root"            ;
-    const TString fn_tthad          = inputLocation + "tthad.root"     ;
-    const TString fn_ttlep          = inputLocation + "ttlep.root"     ;
-    const TString fn_ttsemi         = inputLocation + "ttsemi.root"    ;
+    const TString fn_muon           = dataLocation + "muon.root"    ;
+    const TString fn_elec           = dataLocation + "elec.root"    ;
+    const TString fn_dy             = inputLocation + "dy.root"     ;
+    const TString fn_dy1j           = inputLocation + "dy1j.root"   ;
+    const TString fn_ww             = inputLocation + "ww.root"     ;
+    const TString fn_wz             = inputLocation + "wz.root"     ;
+    const TString fn_zz             = inputLocation + "zz.root"     ;
+    const TString fn_tthad          = inputLocation + "tthad.root"  ;
+    const TString fn_ttlep          = inputLocation + "ttlep.root"  ;
+    const TString fn_ttsemi         = inputLocation + "ttsemi.root" ;
+    const TString fn_t_s            = inputLocation + "t_s.root"    ;
+    const TString fn_t_t            = inputLocation + "t_t.root"    ;
+    const TString fn_t_tw           = inputLocation + "t_tw.root"   ;
+    const TString fn_tbar_s         = inputLocation + "tbar_s.root" ;
+    const TString fn_tbar_t         = inputLocation + "tbar_t.root" ;
+    const TString fn_tbar_tw        = inputLocation + "tbar_tw.root";
 
 // SCALE FACTORS
   // Background weights and b-tagging scale factor. Weights calculated from cross section * number of data events / number of bkgd events analyzed.
     // VV xs taken from papers cited at https://twiki.cern.ch/twiki/bin/view/CMSPublic/PhysicsResultsSMP & https://twiki.cern.ch/twiki/bin/view/CMSPublic/PhysicsResultsCombined
-    const float wt_dy      = 2.27996742; //(3503.71      *19040)/(2.925947*10**7);  xs from VHbb spreadsheet. May need to find new one.
-    const float wt_ww      = 0.133085;   //( 69.9        *19040)/(1.000036*10**7);  xs from: http://arxiv.org/abs/1301.4698
-    const float wt_wz      = 0.046856;   //( 24.61       *19040)/(1.000022*10**7);  xs from: http://cds.cern.ch/record/1564318
-    const float wt_zz      = 0.014960;   //(  7.7        *19040)/(9.799842*10**6);  xs from: http://arxiv.org/pdf/1406.0113v2.pdf
-    const float wt_tthad   = 0.0826369;  //(239.1*(36/81)*19040)/(2.448444*10**7);  xs from ttbar public results page
-    const float wt_ttlep   = 0.0438557;  //(239.1*( 9/81)*19040)/(1.153394*10**7);
-    const float wt_ttsemi  = 0.0807116;  //(239.1*(36/81)*19040)/(2.506849*10**7);
+    const float wt_dy      = 2.27996742;      //(3503.71      *19040)/(2.925947*10**7);  xs from VHbb spreadsheet. May need to find new one.
+    const float wt_ww      = 0.133085;        //( 69.9        *19040)/(1.000036*10**7);  xs from: http://arxiv.org/abs/1301.4698
+    const float wt_wz      = 0.046856;        //( 24.61       *19040)/(1.000022*10**7);  xs from: http://cds.cern.ch/record/1564318
+    const float wt_zz      = 0.014960;        //(  7.7        *19040)/(9.799842*10**6);  xs from: http://arxiv.org/pdf/1406.0113v2.pdf
+    const float wt_tthad   = 0.0826369;       //(239.1*(36/81)*19040)/(2.448444*10**7);  xs from ttbar public results page
+    const float wt_ttlep   = 0.0438557;       //(239.1*( 9/81)*19040)/(1.153394*10**7);
+    const float wt_ttsemi  = 0.0807116;       //(239.1*(36/81)*19040)/(2.506849*10**7);
+    const float wt_t_s     = 0.22556139034;   //(3.79         *19040)/(319920        ); xs from VHbb spreadsheet. Will need to find better numbers.
+    const float wt_t_t     = 0.31976911598;   //(56.4         *19040)/(3358223       );
+    const float wt_t_tw    = 0.42467974801;   //(11.1         *19040)/(497655        );
+    const float wt_tbar_s  = 0.18622372142;   //(1.76         *19040)/(179947        );
+    const float wt_tbar_t  = 0.10921775439;   //(30.7         *19040)/(1935070       );
+    const float wt_tbar_tw = 0.99745060765;   //(11.1         *19040)/(586022        );
 
   // Flat scale factors for background simulation, to correct for underestimation of b-jets
     const float sf_CSVS    = 0.90;

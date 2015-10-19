@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    if(decayChain!="Zuu" && decayChain!="Zee" decayChain!="Zttuu" && decayChain!="Zttee")
+    if(decayChain!="Zuu" && decayChain!="Zee" && decayChain!="Zttuu" && decayChain!="Zttee")
     {
         cout << "\n    ERROR: Please specify one of the following decay chains for your first option: Zuu, Zee, Zttuu, Zttee\n" << endl;
         return 1;

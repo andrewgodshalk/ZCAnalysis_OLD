@@ -23,7 +23,8 @@ namespace ZCStandardVariables
 //    const TString fn_data           = inputLocation + "zcStep2_SingleMuon2012.root";         // Old muon data location.
     const TString fn_muon           = dataLocation + "muon.root"    ;
     const TString fn_elec           = dataLocation + "elec.root"    ;
-    const TString fn_dy             = inputLocation + "dy.root"     ;
+    const TString fn_dy             = "/eos/uscms/store/user/godshalk/noreplica/2015-10-16_ZJNtuples/dy.root";
+//    const TString fn_dy             = inputLocation + "dy.root"     ;
     const TString fn_dy1j           = inputLocation + "dy1j.root"   ;
     const TString fn_ww             = inputLocation + "ww.root"     ;
     const TString fn_wz             = inputLocation + "wz.root"     ;

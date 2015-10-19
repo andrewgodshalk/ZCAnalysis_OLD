@@ -38,8 +38,8 @@ void ZCControlPlotMaker::SlaveBegin(TTree * /*tree*/)
     usingSim = (option.Contains("Sim", TString::kIgnoreCase) ? true : false);
     usingZee = (option.Contains("Zee", TString::kIgnoreCase) ? true : false);
     usingZuu = (option.Contains("Zuu", TString::kIgnoreCase) ? true : false);
-    if(option.Contains("Zttuu", TString::kIgnoreCase) usingZuu = usingZtt = true;
-    if(option.Contains("Zttuu", TString::kIgnoreCase) usingZuu = usingZtt = true;
+    if(option.Contains("Zttuu", TString::kIgnoreCase)) usingZuu = usingZtt = true;
+    if(option.Contains("Zttee", TString::kIgnoreCase)) usingZee = usingZtt = true;
 
     // Initialize Histograms
     h_raw_Zmass          = new TH1F( "h_raw_Zmass"         , "Z Mass"                     " (Raw)" "; Mass (GeV)"          ";Number of Events" , 100, 50, 250    );
@@ -294,6 +294,12 @@ void ZCControlPlotMaker::SlaveBegin(TTree * /*tree*/)
     nRawEvents       = 0;   nZHEEvents = vector<counter>(nJetsAnalyzed+1, 0);
     nRawMuonEvents   = 0;   nZHIEvents = vector<counter>(nJetsAnalyzed+1, 0);
     nRawElecEvents   = 0;
+    nEventsWithValidMuons     = 0;
+    nEventsWithValidElectrons = 0;
+    nEventsWithValidZuu       = 0;
+    nEventsWithValidZee       = 0;
+    nEventsWithValidZuuANDZee = 0;
+
 
 }
 
@@ -319,8 +325,8 @@ void ZCControlPlotMaker::Init(TTree *tree)
 
   // Z variables
     fChain->SetBranchAddress("Vtype", &m_Vtype);
-    if(usingTT)
-        fChain->SetBranchAddress("zdecayMode",          &m_Z_decayMode );
+    if(usingZtt)
+        fChain->SetBranchAddress("zdecayMode",      &m_Z_decayMode );
     temp_branch = fChain->GetBranch("V");
     temp_branch->GetLeaf( "mass" )->SetAddress(     &m_Z_mass      );
     temp_branch->GetLeaf( "pt"   )->SetAddress(     &m_Z_pt        );
@@ -394,7 +400,7 @@ Bool_t ZCControlPlotMaker::Process(Long64_t entry)
     if(m_Vtype==1) nRawElecEvents++;
     if(!usingZee && m_Vtype==1)      return kTRUE;
     if(!usingZuu && m_Vtype==0)      return kTRUE;
-    if(usingZtt && m_Z_decayMode!=3) return kTRUE
+    if(usingZtt && m_Z_decayMode!=3) return kTRUE;
 
   // Perform selection on Muons, Z, Eta
     validMuons = m_nMuons >=2 && m_muon_pt[0]>muonPtMin && fabs(m_muon_eta[0])<=muonEtaMax
@@ -404,6 +410,13 @@ Bool_t ZCControlPlotMaker::Process(Long64_t entry)
     validZ     = m_Z_mass > dilepInvMassMin && m_Z_mass < dilepInvMassMax;
     validMET   = m_MET_et < metMax;
     isZpJEvent = (validMuons||validElecs) && validZ && validMET;
+
+    if(validMuons)             nEventsWithValidMuons++;
+    if(validElecs)             nEventsWithValidElectrons++;
+    if(validMuons&&validZ)     nEventsWithValidZuu++;
+    if(validElecs&&validZ)     nEventsWithValidZee++;
+    if(validMuons&&validElecs) nEventsWithValidZuuANDZee;
+
 
   // Cycle through jets and find valid and heavy flavor jets.
     validJets = vector<int>(0);
@@ -875,7 +888,15 @@ TString ZCControlPlotMaker::saveOutputToFile(TString outputFileName)
            "    Events Processed: " << setw(14) << nEventsProcessed << "\n"
            "    Raw Events:       " << setw(14) << nRawEvents       << "\n"
            "    Raw Muon Events:  " << setw(14) << nRawMuonEvents   << "\n"
-           "    Raw Elec Events:  " << setw(14) << nRawElecEvents   << "\n";
+           "    Raw Elec Events:  " << setw(14) << nRawElecEvents   << "\n"
+           "    Valid Muon Events: " << setw(14) << nEventsWithValidMuons     << "\n"
+           "    Valid Elec Events: " << setw(14) << nEventsWithValidElectrons << "\n"
+           "    Valid Zuu Events:  " << setw(14) << nEventsWithValidZuu       << "\n"
+           "    Valid Zee Events:  " << setw(14) << nEventsWithValidZee       << "\n"
+           "    Valid ZuuANDZee Events:  " << setw(14) << nEventsWithValidZuuANDZee  << "\n";
+
+
+
     log <<   "  Exclusive Z+j: ";  for(int i=0; i!=nJetsAnalyzed+1; i++) log << setw(14) << nZJEEvents[i];
     log << "\n  Inclusive Z+j: ";  for(int i=0; i!=nJetsAnalyzed+1; i++) log << setw(14) << nZJIEvents[i];
     log << "\n  Exclusive Z+HF:";  for(int i=0; i!=nJetsAnalyzed+1; i++) log << setw(14) << nZHEEvents[i];

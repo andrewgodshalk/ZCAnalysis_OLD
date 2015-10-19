@@ -54,6 +54,12 @@ public:
     counter nRawEvents;          // Events that pass JSON Selection
     counter nRawMuonEvents;      // Events of Muon type that pass JSON Selection
     counter nRawElecEvents;      // Events of Electron type that pass JSON Selection
+    counter nEventsWithValidMuons;
+    counter nEventsWithValidElectrons;
+    counter nEventsWithValidZuu;
+    counter nEventsWithValidZee;
+    counter nEventsWithValidZuuANDZee;
+
     std::vector<counter> nZJEEvents;  // Z+N jet events(exclusive)
     std::vector<counter> nZJIEvents;  // Z+N jet events(inclusive)
     std::vector<counter> nZHEEvents;  // Z+N HFjet events(exclusive)
